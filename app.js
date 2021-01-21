@@ -49,26 +49,26 @@ function getplotData(id) {
     d3.json("samples.json").then((graphdata)=> {
       console.log(graphdata)
   
-      var wfreq = graphdata.metadata.map(d => d.wfreq)
-      console.log(wfreq)
+      var washfreq = graphdata.metadata.map(d => d.washfreq)
+      console.log(washfreq)
           
-      // filter sample values by id 
+      //filter sample values by id 
       var samples = graphdata.samples.filter(s => s.id.toString() === id)[0];          
       console.log(samples);
     
-      // Getting the top 10 
+      //Getting the top 10 
       var samplevalues = samples.sample_values.slice(0, 10).reverse();
     
-      // get only top 10 otu ids for the plot OTU and reversing it. 
-      var OTU_top = (samples.otu_ids.slice(0, 10)).reverse();
+      //get only top 10 otu ids for the plot OTU and reversing it. 
+      var OTU_top10 = (samples.otu_ids.slice(0, 10)).reverse();
       
-      // get the otu id's to the desired form for the plot
-      var OTU_id = OTU_top.map(d => "OTU " + d)
+      //get the otu id's to the desired form for the plot
+      var OTU_id = OTU_top10.map(d => "OTU " + d)
     
-      // get the top 10 labels for the plot
+      //get the top 10 labels for the plot
       var labels = samples.otu_labels.slice(0, 10);
   
-      // Create trace variable for the bar plot
+      //Create trace variable for the bar plot
       var trace = {
           x: samplevalues,
           y: OTU_id,
@@ -79,13 +79,13 @@ function getplotData(id) {
             orientation: "h",
       };
     
-      // create data variable
+      //create data variable
       var data = [trace];
     
-      // create layout variable to set plots layout
+      //create layout variable to set plots layout
       var layout = {
-        font:{family:"Arial Rounded MT Bold"},
-        title: "Top 10 OTU",
+        font:{family:"Verdana Pro Black"},
+        title: "<b>Top 10 OTU</b>",
         yaxis:{
             tickmode:"linear",
         },
@@ -97,10 +97,10 @@ function getplotData(id) {
         }
       };
       
-      // create the bar plot
+      //create the bar plot
       Plotly.newPlot("bar", data, layout);
   
-      // Create The bubble chart
+      //Create The bubble chart
       var trace1 = {
           x: samples.otu_ids,
           y: samples.sample_values,
@@ -112,19 +112,19 @@ function getplotData(id) {
           text: samples.otu_labels
       };
     
-      // set the layout for the bubble plot
-      var layout_b = {
-        font:{family:"Arial Rounded MT Bold"},
+      //set the layout for the bubble plot
+      var layout_bubble = {
+        font:{family:"Verdana Pro Black"},
         xaxis:{
           title: "<b>OTU ID</b>",
         },
         showlegend: false
       };
     
-      // creating data variable 
+      //creating data variable 
       var data1 = [trace1];
     
-      // create the bubble plot
-      Plotly.newPlot("bubble", data1, layout_b); 
+      //create the bubble plot
+      Plotly.newPlot("bubble", data1, layout_bubble); 
     })
   };
